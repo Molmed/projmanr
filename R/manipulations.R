@@ -1,5 +1,4 @@
-
-
+devtools::use_package("dplyr")
 
 #' Title
 #'
@@ -74,35 +73,35 @@ fetch_project_summaries_for_date_range <-
   function(connection, start_date, end_date) {
     flowcells_and_run_dates_in_range <-
       flowcell_runfolder_table(connection) %>%
-      select(flowcell_id, run_date) %>%
-      filter(run_date >= as.Date(start_date), run_date < as.Date(end_date)) %>%
-      collect()
+      dplyr::select(flowcell_id, run_date) %>%
+      dplyr::filter(run_date >= as.Date(start_date), run_date < as.Date(end_date)) %>%
+      dplyr::collect()
 
     samples <-
       sample_table(connection) %>%
-      collect(n = Inf)
+      dplyr::collect(n = Inf)
 
     samples_in_date_range <-
       samples[samples$flowcell_id %in% flowcells_and_run_dates_in_range$flowcell_id,]
 
     samples_in_date_range_grouped_by_project_id  <-
       samples_in_date_range %>%
-      group_by(project_id)
+      dplyr::group_by(project_id)
 
     samples_per_project <-
       samples_in_date_range_grouped_by_project_id %>%
-      filter(read_num == 1) %>%
-      distinct(sample_name) %>%
-      tally()
+      dplyr::filter(read_num == 1) %>%
+      dplyr::distinct(sample_name) %>%
+      dplyr::tally()
 
     lanes_per_project <-
       samples_in_date_range_grouped_by_project_id %>%
-      distinct(flowcell_id, lane_num) %>%
-      summarise(lanes = n())
+      dplyr::distinct(flowcell_id, lane_num) %>%
+      dplyr::summarise(lanes = n())
 
     bases_per_project <-
       samples_in_date_range_grouped_by_project_id %>%
-      summarise(bases_sequenced = sum(cycles * pf_clusters, na.rm = TRUE))
+      dplyr::summarise(bases_sequenced = sum(cycles * pf_clusters, na.rm = TRUE))
 
     merge(x = merge(x = samples_per_project, y = lanes_per_project),
           y = bases_per_project)
@@ -122,12 +121,12 @@ fetch_information_for_project <-
   function(connection, project_name) {
     sample_level_project_info <-
       sample_table(connection) %>%
-      filter(project_id == project_name) %>%
-      collect(n = Inf)
+      dplyr::filter(project_id == project_name) %>%
+      dplyr::collect(n = Inf)
 
     flowcell_level_info <-
       flowcell_runfolder_table(connection) %>%
-      collect(n = Inf)
+      dplyr::collect(n = Inf)
 
     merge(x = sample_level_project_info,
           y = flowcell_level_info,
@@ -149,12 +148,12 @@ fetch_aggregated_data_per_instrument_for_period <-
   function(connection, start_date, end_date) {
     flowcells_and_run_dates_in_range <-
       flowcell_runfolder_table(connection) %>%
-      filter(run_date >= as.Date(start_date), run_date < as.Date(end_date)) %>%
-      collect(n = Inf)
+      dplyr::filter(run_date >= as.Date(start_date), run_date < as.Date(end_date)) %>%
+      dplyr::collect(n = Inf)
 
     flowcell_lane_level_info <-
       flowcell_lane_table(connection) %>%
-      collect(n = Inf)
+      dplyr::collect(n = Inf)
 
     lane_info_in_date_range <-
       merge(x = flowcells_and_run_dates_in_range,
@@ -164,10 +163,10 @@ fetch_aggregated_data_per_instrument_for_period <-
     aggregated_information <-
       lane_info_in_date_range %>%
       add_instrument_name_to_dataframe() %>%
-      mutate(month = as.factor(format(run_date, "%m")),
-             year = as.factor(format(run_date, "%Y"))) %>%
-      group_by(month, year, instrument) %>%
-      summarise(giga_bases = sum(pf_clusters * cycles) / 10 ^ 9)
+      dplyr::mutate(month = as.factor(format(run_date, "%m")),
+                    year = as.factor(format(run_date, "%Y"))) %>%
+      dplyr::group_by(month, year, instrument) %>%
+      dplyr::summarise(giga_bases = sum(pf_clusters * cycles) / 10 ^ 9)
 
     aggregated_information
 

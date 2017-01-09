@@ -1,4 +1,3 @@
-#devtools::use_package("DBI")
 devtools::use_package("rJava")
 devtools::use_package("RSQLServer")
 devtools::use_package("dplyr")
