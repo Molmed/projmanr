@@ -2,14 +2,22 @@
 % Please edit documentation in R/manipulations.R
 \name{fetch_information_for_project}
 \alias{fetch_information_for_project}
-\title{Title}
+\title{Fetches all information about a project and returns on the format:}
 \usage{
 fetch_information_for_project(connection, project_name)
 }
 \arguments{
-\item{project_name}{}
+\item{connection}{a connection object}
+
+\item{project_name}{the name of the project to fetch data for}
+}
+\value{
+A data frame with all information for the project on the following format:
+flowcell_id project_id sample_name tag_seq lane_num read_num cycles  pct_lane pf_clusters  pct_q30 pct_tag_err     library_name   mean_q   runfolder_name   run_date
+1      HVHL3CCXX    PA-1029       LR058  ACTTGA        1        1    151 13.176618    61628805 95.73171    3.032265   SX717_LR058.v1 40.09754     160816_ST-E00274_0100_BHVHL3CCXX 2016-08-16
+2      HVHL3CCXX    PA-1029       LR284  TTAGGC        1        1    151 10.769056    50368320 95.62205    3.079384   SX717_LR284.v1 40.053861    160816_ST-E00274_0100_BHVHL3CCXX 2016-08-16
 }
 \description{
-Title
+Fetches all information about a project and returns on the format:
 }
 

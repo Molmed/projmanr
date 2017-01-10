@@ -2,14 +2,24 @@
 % Please edit documentation in R/tables.R
 \name{sample_table}
 \alias{sample_table}
-\title{Title}
+\title{Fetch the sample results table}
 \usage{
 sample_table(conn)
 }
 \arguments{
-\item{conn}{}
+\item{conn}{a connection object}
+}
+\value{
+The format of the table looks like this:
+   flowcell_id project_id sample_name tag_seq lane_num read_num cycles  pct_lane pf_clusters  pct_q30 pct_tag_err library_name   mean_q
+   <chr>      <chr>       <chr>   <chr>    <int>    <int>  <int>     <dbl>       <dbl>    <dbl>       <dbl>        <chr>    <dbl>
+1  000000000-A0KD9    LD-0049       15890  CTCGGT        1        1    150 15.806417      748173 85.32888    3.932513              33.37124
+2  000000000-A0KD9    LD-0049       19540  TTACGG        1        1    150 13.646423      645933 84.84964    2.017237              33.24309
+3  000000000-A0KD9    LD-0049       22221  GAGTAT        1        1    150  9.311397      440741 85.38124    7.834760              33.38419
+4  000000000-A0KD9    LD-0049       26291  GCGTCC        1        1    150 16.277901      770490 84.83561    2.805617              33.24936
+5  000000000-A0KD9    LD-0049       27403  ATATAC        1        1    150 20.664413      978119 84.94376    1.611051              33.26583
 }
 \description{
-Title
+Fetch the sample results table
 }
 

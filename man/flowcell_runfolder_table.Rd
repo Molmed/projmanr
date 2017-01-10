@@ -2,14 +2,24 @@
 % Please edit documentation in R/tables.R
 \name{flowcell_runfolder_table}
 \alias{flowcell_runfolder_table}
-\title{Title}
+\title{Fetch the runfolder table}
 \usage{
 flowcell_runfolder_table(conn)
 }
 \arguments{
-\item{conn}{}
+\item{conn}{a connection object}
+}
+\value{
+The format of the table looks like this:
+       flowcell_id                      runfolder_name   run_date
+   <chr>                               <chr>     <dttm>
+2  000000000-A0KD9 120426_M00485_0002_AMS0010415-00300 2012-04-26
+3  000000000-A0WUK 120511_M00485_0005_AMS2004474-00300 2012-05-11
+4  000000000-A0Y09 120507_M00485_0004_AMS0010471-00300 2012-05-07
+5  000000000-A14LW 120604_M00485_0007_A000000000-A14LW 2012-06-04
+6  000000000-A180F 120612_M00485_0008_A000000000-A180F 2012-06-12
 }
 \description{
-Title
+Fetch the runfolder table
 }
 

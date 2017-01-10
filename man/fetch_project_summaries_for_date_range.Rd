@@ -2,14 +2,28 @@
 % Please edit documentation in R/manipulations.R
 \name{fetch_project_summaries_for_date_range}
 \alias{fetch_project_summaries_for_date_range}
-\title{Title}
+\title{Fetch project summaries for the specified period}
 \usage{
 fetch_project_summaries_for_date_range(connection, start_date, end_date)
 }
 \arguments{
-\item{end_date}{}
+\item{connection}{a connection object}
+
+\item{start_date}{on format '2017-01-01' inclusive}
+
+\item{end_date}{on format '2017-12-31' exclusive}
+}
+\value{
+A project summary table with the following format
+      project_id   nbr_of_samples lanes bases_sequenced
+2          FU102   22             2    2.111589e+10
+3           FU64    1             1    5.688977e+10
+4           FU79   12             2    9.404285e+10
+5           FU87    8             4    3.076640e+11
+6           FU95    1             2    3.873992e+10
+7           FU98   19             2    8.033634e+10
 }
 \description{
-Title
+Fetch project summaries for the specified period
 }
 

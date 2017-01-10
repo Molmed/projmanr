@@ -2,15 +2,34 @@
 % Please edit documentation in R/manipulations.R
 \name{fetch_aggregated_data_per_instrument_for_period}
 \alias{fetch_aggregated_data_per_instrument_for_period}
-\title{Title}
+\title{Fetch aggregated data for all instruments for the specified period}
 \usage{
 fetch_aggregated_data_per_instrument_for_period(connection, start_date,
   end_date)
 }
 \arguments{
-\item{end_date}{}
+\item{connection}{a connection object}
+
+\item{start_date}{on format '2017-01-01' inclusive}
+
+\item{end_date}{on format '2017-12-31' exclusive}
+}
+\value{
+A data frame with aggregate data for each instrument
+month   year instrument giga_bases mean_pct_q30 cummulative_giga_bases
+<fctr> <fctr>     <fctr>      <dbl>        <dbl>                  <dbl>
+1      01   2016    HiSeq 3   136.2203    0.7901464               136.2203
+2      03   2016    HiSeq 3   784.2160    0.8173106               920.4363
+3      04   2016    HiSeq 3   752.7554    0.8559456              1673.1917
+4      05   2016    HiSeq 3   235.9002    0.7706029              1909.0919
+5      06   2016    HiSeq 3   500.5259    0.8773095              2409.6177
+6      07   2016    HiSeq 3  1040.6433    0.8605515              3450.2611
+7      08   2016    HiSeq 3   489.9396    0.7885864              3940.2007
+8      11   2016    HiSeq 3   103.4723    0.9756829              4043.6730
+9      02   2016    HiSeq 4   765.1809    0.9520556               765.1809
+10     03   2016    HiSeq 4   914.8843    0.8691078              1680.0653
 }
 \description{
-Title
+Fetch aggregated data for all instruments for the specified period
 }
 

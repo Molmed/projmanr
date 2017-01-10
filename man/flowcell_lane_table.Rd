@@ -2,14 +2,26 @@
 % Please edit documentation in R/tables.R
 \name{flowcell_lane_table}
 \alias{flowcell_lane_table}
-\title{Title}
+\title{Fetch the flowcell lane table}
 \usage{
 flowcell_lane_table(conn)
 }
 \arguments{
-\item{conn}{}
+\item{conn}{a connection object}
+}
+\value{
+The format of the table looks like:
+    flowcell_id lane_num read_num raw_density pf_density error_rate raw_clusters pf_clusters cycles   pct_q30   mean_q delivered
+    <chr>    <int>    <int>       <dbl>      <dbl>      <dbl>        <dbl>       <dbl>  <int>     <dbl>    <dbl>     <int>
+ 1  000000000-A0KD9        1        1    864521.0   696930.8       0.65      5871614     4733350    150 0.8453360 33.12884         1
+ 2  000000000-A0KD9        1        2    864521.0   696930.8       1.08      5871614     4733350    150 0.7515980 30.17472         1
+ 3  000000000-A0WUK        1        1   1272872.1  1018724.9       0.57      9332511     7469194    150 0.8728759 33.96945         1
+ 4  000000000-A0WUK        1        2   1272872.1  1018724.9       2.08      9332511     7469194    150 0.7391021 29.90063         1
+ 5  000000000-A0Y09        1        1    965732.0   843288.6       0.54      7462029     6516029    150 0.8857051 34.15779         1
+ 6  000000000-A0Y09        1        2    965732.0   843288.6       1.28      7462029     6516029    150 0.7526702 30.16574         1
+ 7  000000000-A14LW        1        1   1022702.9   862672.0       0.57      7660272     6461573    150 0.9083131 35.40900         1
 }
 \description{
-Title
+Fetch the flowcell lane table
 }
 
