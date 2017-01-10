@@ -1,10 +1,11 @@
 devtools::use_package("dplyr")
 
-#' Title
+#' Add the instrument name to a data frame
 #'
-#' @param data
+#' @param data the data frame to add the instrument name to. This has to have a column called runfolder_name
+#' which contains the name of the runfolder on the format '120620_M00485_0010_A000000000-A19RW'
 #'
-#' @return
+#' @return the same data frame as input with the column instrument added to it.
 #' @export
 #'
 #' @examples
@@ -59,13 +60,20 @@ add_instrument_name_to_dataframe <- function(data) {
   runfolder_names_and_instrument_names
 }
 
-#' Title
+#' Fetch project summaries for the specified period
 #'
-#' @param connection
-#' @param start_date
-#' @param end_date
+#' @param connection a connection object
+#' @param start_date on format '2017-01-01' inclusive
+#' @param end_date on format '2017-12-31' exclusive
 #'
-#' @return
+#' @return A project summary table with the following format
+#'       project_id   nbr_of_samples lanes bases_sequenced
+#' 2          FU102   22             2    2.111589e+10
+#' 3           FU64    1             1    5.688977e+10
+#' 4           FU79   12             2    9.404285e+10
+#' 5           FU87    8             4    3.076640e+11
+#' 6           FU95    1             2    3.873992e+10
+#' 7           FU98   19             2    8.033634e+10
 #' @export
 #'
 #' @examples
@@ -92,7 +100,7 @@ fetch_project_summaries_for_date_range <-
       samples_in_date_range_grouped_by_project_id %>%
       dplyr::filter(read_num == 1) %>%
       dplyr::distinct(sample_name) %>%
-      dplyr::tally()
+      dplyr::summarise(nbr_of_samples = n())
 
     lanes_per_project <-
       samples_in_date_range_grouped_by_project_id %>%
@@ -108,12 +116,15 @@ fetch_project_summaries_for_date_range <-
 
   }
 
-#' Title
+#' Fetches all information about a project and returns on the format:
 #'
-#' @param connection
-#' @param project_name
+#' @param connection a connection object
+#' @param project_name the name of the project to fetch data for
+#' @return A data frame with all information for the project on the following format:
+#' flowcell_id project_id sample_name tag_seq lane_num read_num cycles  pct_lane pf_clusters  pct_q30 pct_tag_err     library_name   mean_q   runfolder_name   run_date
+#' 1      HVHL3CCXX    PA-1029       LR058  ACTTGA        1        1    151 13.176618    61628805 95.73171    3.032265   SX717_LR058.v1 40.09754     160816_ST-E00274_0100_BHVHL3CCXX 2016-08-16
+#' 2      HVHL3CCXX    PA-1029       LR284  TTAGGC        1        1    151 10.769056    50368320 95.62205    3.079384   SX717_LR284.v1 40.053861    160816_ST-E00274_0100_BHVHL3CCXX 2016-08-16
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -134,13 +145,26 @@ fetch_information_for_project <-
   }
 
 
-#' Title
+#' Fetch aggregated data for all instruments for the specified period
 #'
-#' @param connection
-#' @param start_date
-#' @param end_date
+#' @param connection a connection object
+#' @param start_date on format '2017-01-01' inclusive
+#' @param end_date on format '2017-12-31' exclusive
 #'
-#' @return
+#' @return A data frame with aggregate data for each instrument
+#' month   year instrument giga_bases mean_pct_q30 cummulative_giga_bases
+#' <fctr> <fctr>     <fctr>      <dbl>        <dbl>                  <dbl>
+#' 1      01   2016    HiSeq 3   136.2203    0.7901464               136.2203
+#' 2      03   2016    HiSeq 3   784.2160    0.8173106               920.4363
+#' 3      04   2016    HiSeq 3   752.7554    0.8559456              1673.1917
+#' 4      05   2016    HiSeq 3   235.9002    0.7706029              1909.0919
+#' 5      06   2016    HiSeq 3   500.5259    0.8773095              2409.6177
+#' 6      07   2016    HiSeq 3  1040.6433    0.8605515              3450.2611
+#' 7      08   2016    HiSeq 3   489.9396    0.7885864              3940.2007
+#' 8      11   2016    HiSeq 3   103.4723    0.9756829              4043.6730
+#' 9      02   2016    HiSeq 4   765.1809    0.9520556               765.1809
+#' 10     03   2016    HiSeq 4   914.8843    0.8691078              1680.0653
+#'
 #' @export
 #'
 #' @examples
@@ -166,7 +190,11 @@ fetch_aggregated_data_per_instrument_for_period <-
       dplyr::mutate(month = as.factor(format(run_date, "%m")),
                     year = as.factor(format(run_date, "%Y"))) %>%
       dplyr::group_by(month, year, instrument) %>%
-      dplyr::summarise(giga_bases = sum(pf_clusters * cycles) / 10 ^ 9)
+      dplyr::summarise(giga_bases = sum(pf_clusters * cycles) / 10 ^ 9,
+                       mean_pct_q30 = mean(pct_q30)) %>%
+      dplyr::group_by(instrument) %>%
+      dplyr::mutate(cummulative_giga_bases = cumsum(giga_bases)) %>%
+      dplyr::arrange(instrument, year, month)
 
     aggregated_information
 

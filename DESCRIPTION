@@ -13,5 +13,6 @@ LazyData: true
 Imports:
     rJava,
     RSQLServer,
-    dplyr
+    dplyr,
+    devtools
 RoxygenNote: 5.0.1
