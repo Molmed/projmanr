@@ -3,6 +3,8 @@
 # This is a super short tutorial with examples of how to use this package
 # ------------------------------------------------------------------------
 
+library(projmanr)
+
 # First establish a connection object. Please note that you first have to have a
 # `sql.yaml` file which contains the connection information to connect to the database.
 connection <- RSQLServer::src_sqlserver("MS_SQL", file='sql.yaml', database = 'ProjectMan')

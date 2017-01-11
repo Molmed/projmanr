@@ -7,3 +7,5 @@ export(fetch_project_summaries_for_date_range)
 export(flowcell_lane_table)
 export(flowcell_runfolder_table)
 export(sample_table)
+
+importFrom(magrittr,"%>%")
