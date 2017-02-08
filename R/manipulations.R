@@ -25,7 +25,8 @@ add_instrument_name_to_dataframe <- function(data) {
         "ST-E00279",
         "ST-E00280",
         "M00485",
-        "M00629"
+        "M00629", 
+        "M03379"
       ),
       instrument = c(
         "HiSeq 1",
@@ -40,7 +41,8 @@ add_instrument_name_to_dataframe <- function(data) {
         "HiSeqX 4",
         "HiSeqX 5",
         "MiSeq 1",
-        "MiSeq 2"
+        "MiSeq 2", 
+        "MiSeq IMBIM"
       )
     )
 
